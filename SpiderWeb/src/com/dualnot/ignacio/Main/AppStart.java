@@ -6,7 +6,7 @@ public class AppStart {
 	
 	public static void main(String[] args){
 		Spider s = new Spider();
-		s.crawl("http://www.thepiratebay.se");
+		s.crawl("http://www.google.se");
 		
 	}
 
