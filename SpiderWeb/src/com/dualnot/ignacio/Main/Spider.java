@@ -10,7 +10,6 @@ import java.util.List;
 
 public class Spider {
 	
-	private int links_read = 0;
 	private List<String> links_visited = new ArrayList<String>();
 	private List<String> links_to_visit = new ArrayList<String>();
 	
@@ -19,10 +18,11 @@ public class Spider {
 	}
 	
 	public void crawl(String url_address){
-		for (String link: this.get_links(url_address)){
+		this.links_visited.add(url_address);
+		this.links_to_visit.addAll( this.get_links(url_address));
+		for (String link: this.links_to_visit){
 			System.out.println(link);
 		}
-		
 	}
 	
 	public List<String> get_links(String url_address){
@@ -37,18 +37,15 @@ public class Spider {
 			while (( line = br.readLine())!=null){
 				String token = "<a href=\"";
 				while (line.toLowerCase().indexOf(token)!=-1){
-					line = line.substring(line.indexOf(token),line.length());
-					line = line.substring(line.indexOf(token) + token.length(), line.length());
-					list.add ( line.substring(0, line.indexOf("\"")));	
-					System.out.println(line.substring(0, line.indexOf("\"")));
+					line = line.substring(line.toLowerCase().indexOf(token) + token.length(), line.length());
+					String link = line.substring(0, line.indexOf("\"")); 
+					list.add ( link );	
 				}
-				
 			}
+			is.close();
 		} catch (java.net.MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (java.io.IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		finally {
